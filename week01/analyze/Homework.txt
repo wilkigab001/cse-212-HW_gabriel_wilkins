@@ -1,0 +1,18 @@
+Part 1: 
+
+1.) O(n^2);
+2.)
+    a.) Standard Deviation 1 = o(n)
+    b.) Standard Deviation 2 = o(n^2)
+    c.) Standard Deviation 3 = o(n^2);
+
+4.) o(1) < o(logn) < o(n) < o(nlogn)<o(n^2)< o(2^n);
+
+
+Part 2:
+
+Performance for big O dependent for each function:
+sort1-count: o(n);
+sort2-count: o(logn);
+
+Better Performance = Sort2-count;

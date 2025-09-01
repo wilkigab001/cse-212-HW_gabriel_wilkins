@@ -8,12 +8,21 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
+
+        //Need to create a new array that is the length of the variable length. 
+        //Then I need to do a for loop or a while loop for while I < length
+        //Then we add to the for loop each iteration, at [i] the returned array should have the number times the iteration plus one, since we started at 0;
         // TODO Problem 1 Start
+        var toReturn = new double[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            toReturn[i] = number * (i + 1);
+        }
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
-
-        return []; // replace this return statement with your own
+        return toReturn; // replace this return statement with your own
     }
 
     /// <summary>
@@ -29,5 +38,22 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        //The data is a list, I need to get the length of the data.
+        //From there I can extract the amount by using get range.
+        //Then I can create a new array using those numbers,  that used the get range
+
+        int n = data.Count;
+
+        amount = amount % n;
+        if (amount == 0) return;
+
+
+        int indexOfTail = n - amount;
+
+        var tail = data.GetRange(indexOfTail, amount);
+        data.RemoveRange(indexOfTail, amount);
+        data.InsertRange(0, tail);
+
     }
 }

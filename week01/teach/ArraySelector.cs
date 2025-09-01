@@ -1,3 +1,5 @@
+using System.Xml.XPath;
+
 public static class ArraySelector
 {
     public static void Run()
@@ -11,6 +13,21 @@ public static class ArraySelector
 
     private static int[] ListSelector(int[] list1, int[] list2, int[] select)
     {
-        return [];
+
+        var ToReturn = new int[select.Length];
+
+        var List1Index = 0;
+        var List2Index = 0;
+
+        for (var i = 0; i < select.Length; i++)
+        {
+            if (select[i] == 1) {
+                ToReturn[i] = list1[List1Index++];
+            }
+            else if (select[i] == 2) {
+                ToReturn[i] = list2[List2Index++];
+            }
+        }
+        return ToReturn;
     }
 }
