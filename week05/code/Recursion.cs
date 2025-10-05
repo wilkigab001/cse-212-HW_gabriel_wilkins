@@ -14,33 +14,36 @@ public static class Recursion
     /// </summary>
     public static int SumSquaresRecursive(int n)
     {
-        // TODO Start Problem 1
-        return 0;
+        var Sum = 0;
+        for (int index = 1; index <= n; index++) {
+            Sum += index * index;
+        }
+        return Sum;
     }
 
-    /// <summary>
-    /// #############
-    /// # Problem 2 #
-    /// #############
-    /// Using recursion, insert permutations of length
-    /// 'size' from a list of 'letters' into the results list.  This function
-    /// should assume that each letter is unique (i.e. the 
-    /// function does not need to find unique permutations).
-    ///
-    /// In mathematics, we can calculate the number of permutations
-    /// using the formula: len(letters)! / (len(letters) - size)!
-    ///
-    /// For example, if letters was [A,B,C] and size was 2 then
-    /// the following would the contents of the results array after the function ran: AB, AC, BA, BC, CA, CB (might be in 
-    /// a different order).
-    ///
-    /// You can assume that the size specified is always valid (between 1 
-    /// and the length of the letters list).
-    /// </summary>
-    public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
+public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
+{
+    
+    // Base case: if we've built a word of the desired size, add it to results
+    if (word.Length == size)
     {
-        // TODO Start Problem 2
+        results.Add(word);
+        return;
     }
+    
+    // Recursive case: try adding each remaining letter
+    for (int i = 0; i < letters.Length; i++)
+    {
+        // Get the current letter
+        char currentLetter = letters[i];
+        
+        // Create a new string with the current letter removed
+        string remainingLetters = letters.Remove(i, 1);
+        
+        // Recursively build permutations with the current letter added to word
+        PermutationsChoose(results, remainingLetters, size, word + currentLetter);
+    }
+}
 
     /// <summary>
     /// #############
@@ -86,6 +89,10 @@ public static class Recursion
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
+        // Initialize the dictionary if it's null (first call)
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+        
         // Base Cases
         if (s == 0)
             return 0;
@@ -96,10 +103,18 @@ public static class Recursion
         if (s == 3)
             return 4;
 
-        // TODO Start Problem 3
+        // Check if we've already calculated this value
+        if (remember.ContainsKey(s))
+            return remember[s];
 
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        // Solve using recursion with memoization
+        decimal ways = CountWaysToClimb(s - 1, remember) + 
+                    CountWaysToClimb(s - 2, remember) + 
+                    CountWaysToClimb(s - 3, remember);
+        
+        // Store the result in the dictionary before returning
+        remember[s] = ways;
+        
         return ways;
     }
 
@@ -116,10 +131,27 @@ public static class Recursion
     /// Using recursion, insert all possible binary strings for a given pattern into the results list.  You might find 
     /// some of the string functions like IndexOf and [..X] / [X..] to be useful in solving this problem.
     /// </summary>
-    public static void WildcardBinary(string pattern, List<string> results)
+public static void WildcardBinary(string pattern, List<string> results)
+{
+    // Find the first wildcard in the pattern
+    int wildcardIndex = pattern.IndexOf('*');
+    
+    // Base case: if there's no wildcard, we have a complete binary string
+    if (wildcardIndex == -1)
     {
-        // TODO Start Problem 4
+        results.Add(pattern);
+        return;
     }
+    
+    // Recursive case: replace the wildcard with '0' and '1'
+    // Replace the wildcard at wildcardIndex with '0'
+    string patternWith0 = pattern[..wildcardIndex] + '0' + pattern[(wildcardIndex + 1)..];
+    WildcardBinary(patternWith0, results);
+    
+    // Replace the wildcard at wildcardIndex with '1'
+    string patternWith1 = pattern[..wildcardIndex] + '1' + pattern[(wildcardIndex + 1)..];
+    WildcardBinary(patternWith1, results);
+}
 
     /// <summary>
     /// Use recursion to insert all paths that start at (0,0) and end at the
